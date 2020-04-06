@@ -17,8 +17,9 @@ namespace Secao_17___SalesWEBMVC.Controllers
 
         public IActionResult About()
         {
-            ViewData["Message"] = "Your application description page.";
-
+            ViewData["Message"] = "Sales WEB MVC.";
+            ViewData["Developer"] = "Developer: Polibio Lins Costa Neto";
+            ViewData["email"] = "polibio.l.costa@gmail.com";
             return View();
         }
 
