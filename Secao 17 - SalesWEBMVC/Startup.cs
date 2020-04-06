@@ -11,6 +11,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 
+
 namespace Secao_17___SalesWEBMVC
 {
     public class Startup
@@ -36,7 +37,8 @@ namespace Secao_17___SalesWEBMVC
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
             services.AddDbContext<SalesWEBMVCContext>(options =>
-                    options.UseSqlServer(Configuration.GetConnectionString("SalesWEBMVCContext")));
+                    options.UseMySql(Configuration.GetConnectionString("SalesWEBMVCContext"), builder =>
+                    builder.MigrationsAssembly("Secao 17 - SalesWEBMVC"))); // Instalar o Pomelo.EntityFrameworkCore.MySql -Version 2.1.1
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
