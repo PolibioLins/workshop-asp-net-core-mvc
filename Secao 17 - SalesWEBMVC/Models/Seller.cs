@@ -13,6 +13,7 @@ namespace Secao_17___SalesWEBMVC.Models
         public DateTime Date { get; set; }
         public double BaseSalary { get; set; }
         public Department Department { get; set; }
+        public int DepartmentId { get; set; }
         public ICollection<SallesRecord> Sales = new List<SallesRecord>();
 
         public Seller(){}
