@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Secao_17___SalesWEBMVC.Services;
 using Secao_17___SalesWEBMVC.Models;
+using Secao_17___SalesWEBMVC.Models.ViewModels;
 using Secao17SalesWEBMVC.Data;
 
 namespace Secao_17___SalesWEBMVC.Controllers
@@ -12,10 +13,13 @@ namespace Secao_17___SalesWEBMVC.Controllers
     public class SellersController : Controller
     {
         private readonly SellerService _sellerService;
+        private readonly DepartmentService _departmentService;
 
-        public SellersController (SellerService sellerService)
+
+        public SellersController (SellerService sellerService,DepartmentService departmentService)
         {
             _sellerService = sellerService;
+            _departmentService = departmentService;
         }
 
 
@@ -28,7 +32,10 @@ namespace Secao_17___SalesWEBMVC.Controllers
 
         public IActionResult Create()
         {
-            return View();
+
+            var departments = _departmentService.FindAll();
+            var viewModel = new SellerFormViewModel { Departments = departments };
+            return View(viewModel);
         }
 
         [HttpPost]

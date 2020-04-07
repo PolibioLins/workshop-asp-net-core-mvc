@@ -44,7 +44,7 @@ namespace Secao_17___SalesWEBMVC
 
             services.AddScoped<SeedingService>();
             services.AddScoped<SellerService>();
-
+            services.AddScoped<DepartmentService>();
 
         }
 
