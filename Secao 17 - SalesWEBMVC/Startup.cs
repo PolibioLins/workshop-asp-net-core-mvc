@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
+using Secao17SalesWEBMVC.Data;
 
 
 namespace Secao_17___SalesWEBMVC
@@ -39,14 +40,18 @@ namespace Secao_17___SalesWEBMVC
             services.AddDbContext<SalesWEBMVCContext>(options =>
                     options.UseMySql(Configuration.GetConnectionString("SalesWEBMVCContext"), builder =>
                     builder.MigrationsAssembly("Secao 17 - SalesWEBMVC"))); // Instalar o Pomelo.EntityFrameworkCore.MySql -Version 2.1.1
+
+            services.AddScoped<SeedingService>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env,SeedingService seedingService)
         {
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                seedingService.Seed();
             }
             else
             {
@@ -64,6 +69,8 @@ namespace Secao_17___SalesWEBMVC
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
+
+
         }
     }
 }
