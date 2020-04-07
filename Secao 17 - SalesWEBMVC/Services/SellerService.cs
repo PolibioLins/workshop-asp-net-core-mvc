@@ -21,6 +21,11 @@ namespace Secao_17___SalesWEBMVC.Services
 
 
         }
+        public void Inset (Seller obj)
+        {
+            _context.Add(obj);
+            _context.SaveChanges();
+        }
 
     }
 }
