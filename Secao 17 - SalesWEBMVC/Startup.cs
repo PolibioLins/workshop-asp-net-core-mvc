@@ -11,6 +11,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using Secao17SalesWEBMVC.Data;
+using Secao_17___SalesWEBMVC.Services;
 
 
 namespace Secao_17___SalesWEBMVC
@@ -42,6 +43,8 @@ namespace Secao_17___SalesWEBMVC
                     builder.MigrationsAssembly("Secao 17 - SalesWEBMVC"))); // Instalar o Pomelo.EntityFrameworkCore.MySql -Version 2.1.1
 
             services.AddScoped<SeedingService>();
+            services.AddScoped<SellerService>();
+
 
         }
 
