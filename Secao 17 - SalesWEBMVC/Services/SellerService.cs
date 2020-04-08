@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Secao_17___SalesWEBMVC.Models;
 using Microsoft.EntityFrameworkCore;
+using Secao_17___SalesWEBMVC.Exceptions;
 
 namespace Secao_17___SalesWEBMVC.Services
 {
@@ -37,7 +38,26 @@ namespace Secao_17___SalesWEBMVC.Services
             _context.Seller.Remove(obj);
             _context.SaveChanges();
         }
+        public void Update(Seller obj)
+        {
+            if(!_context.Seller.Any(x=> x.Id == obj.Id))
+            {
+                throw new NotFoundException("Id  not found");
+            }
+            try
+            {
+                _context.Update(obj);
+                _context.SaveChanges();
+            }
 
+            catch(DBConcurrencyException e)
+            {
+                throw new DBConcurrencyException(e.Message);
+            }
+
+
+
+        }
 
     }
 }
