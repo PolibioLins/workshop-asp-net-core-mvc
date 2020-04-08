@@ -8,6 +8,7 @@ using Secao_17___SalesWEBMVC.Models;
 using Secao_17___SalesWEBMVC.Models.ViewModels;
 using Secao17SalesWEBMVC.Data;
 using Secao_17___SalesWEBMVC.Exceptions;
+using System.Diagnostics;
 
 namespace Secao_17___SalesWEBMVC.Controllers
 {
@@ -52,14 +53,14 @@ namespace Secao_17___SalesWEBMVC.Controllers
         {
             if(id==null)
             {
-                return NotFound();
+                return RedirectToAction(nameof(Error),new { message = "Id not provided" } );
             }
 
             var obj = _sellerService.FindById(id.Value);
 
             if(obj == null)
             {
-                return NotFound();
+                return RedirectToAction(nameof(Error), new { message = "Id not found" });
             }
 
             return View(obj);
@@ -78,14 +79,14 @@ namespace Secao_17___SalesWEBMVC.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return RedirectToAction(nameof(Error), new { message = "Id not provided" });
             }
 
             var obj = _sellerService.FindById(id.Value);
 
             if (obj == null)
             {
-                return NotFound();
+                RedirectToAction(nameof(Error), new { message = "Id not found" });
             }
 
             return View(obj);
@@ -97,14 +98,14 @@ namespace Secao_17___SalesWEBMVC.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return RedirectToAction(nameof(Error), new { message = "Id not provided" });
             }
 
             var obj = _sellerService.FindById(id.Value);
 
             if (obj == null)
             {
-                return NotFound();
+                return RedirectToAction(nameof(Error), new { message = "Id not found" });
             }
 
             List<Department> departments = _departmentService.FindAll();
@@ -118,7 +119,7 @@ namespace Secao_17___SalesWEBMVC.Controllers
         {
              if(id != seller.Id)
             {
-                return BadRequest();
+                return RedirectToAction(nameof(Error), new { message = "Id mismatch" });
 
             }
 
@@ -129,15 +130,23 @@ namespace Secao_17___SalesWEBMVC.Controllers
                 return RedirectToAction(nameof(Index));
             }
           
-            catch(NotFoundException)
+            catch(ApplicationException e)
             {
-                return NotFound();
+                return RedirectToAction(nameof(Error), new { message = e.Message });
             }
-            catch(DBConcurrencyException)
-            {
-                return BadRequest();
-            }
-
         }
+
+
+        public IActionResult Error(string message)
+        {
+            var viewModel = new ErrorViewModel
+            {
+                Message = message,
+                RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier
+
+            };
+            return View(viewModel);
+        }
+
     }
 }
